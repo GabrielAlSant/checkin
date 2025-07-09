@@ -27,22 +27,28 @@ export default function DetalhesCheckin() {
 
   return (
     <View style={styles.container}>
-      <Button title="⬅ Voltar" onPress={() => navigation.goBack()} />
-      <Text style={styles.title}>Detalhes do Registro</Text>
-      <Text style={styles.info}>Atividade: {detalhes.apelido || detalhes.nome}</Text>
-      <Text style={styles.info}>Data/Hora: {data}</Text>
-
+   
+      <Text style={styles.title}>Detalhes do Check</Text>
+      <Text style={styles.info}>Apelido da Atividade (Aparece aqui também rs): {detalhes.apelido}</Text>
+      <Text style={styles.info}>Regitrado em: {data}</Text>
       <Mapa
         latitude={detalhes.latitude}
         longitude={detalhes.longitude}
       />
+      <Text />
+        <Button title="Voltar" onPress={() => navigation.goBack()} color="green" />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16 },
-  title: { fontSize: 20, fontWeight: 'bold', marginVertical: 16 },
-  info: { fontSize: 16, marginBottom: 8 },
+container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: "#121212",
+    color: "green",
+  },
+  title: { fontSize: 20, fontWeight: 'bold', marginVertical: 16, color: "white" },
+  info: { fontSize: 16, marginBottom: 8, color: "white" },
   loading: { padding: 20, textAlign: 'center' },
 });
