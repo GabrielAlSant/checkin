@@ -94,11 +94,11 @@ export default function OneCheckin({atividade}){
   return (
          <View>
            <Text style={styles.title}>Detalhes da Atividade</Text>
-          <Text><Text style={styles.label}>Nome:</Text> {atividade.nome}</Text>
-          <Text><Text style={styles.label}>Apelido:</Text> {atividade.apelido}</Text>
-          <Text><Text style={styles.label}>Descrição:</Text> {atividade.descricao}</Text>
-          <Text><Text style={styles.label}>Tipo:</Text> {atividade.tipo}</Text>
-          <Text><Text style={styles.label}>Dia da Semana:</Text> {atividade.dia_nome}</Text>
+          <Text style={styles.itematividade}><Text style={styles.label}>Nome:</Text> {atividade.nome}</Text>
+          <Text style={styles.itematividade}><Text style={styles.label}>Apelido:</Text> {atividade.apelido}</Text>
+          <Text style={styles.itematividade}><Text style={styles.label}>Descrição:</Text> {atividade.descricao}</Text>
+          <Text style={styles.itematividade}><Text style={styles.label}>Tipo:</Text> {atividade.tipo}</Text>
+          <Text style={styles.itematividade}><Text style={styles.label}>Dia da Semana:</Text> {atividade.dia_nome}</Text>
          </View>
   )
 }
@@ -117,8 +117,11 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 16
   },
-   title: { fontSize: 20, fontWeight: 'bold', marginBottom: 20 },
-  label: { fontWeight: 'bold' },
-  loading: { padding: 20, textAlign: 'center' }
+   title: { fontSize: 20, fontWeight: 'bold', marginBottom: 20, color:'white' },
+  label: { fontWeight: 'bold', color:'white' },
+  loading: { padding: 20, textAlign: 'center' },
+  itematividade:{
+    color:'gray'
+  }
 });
 

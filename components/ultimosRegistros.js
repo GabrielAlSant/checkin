@@ -9,7 +9,7 @@ import {
 import { styles } from "../pages/Home";
 
 
-export default function UltimosRegistros({historico}){
+export default function UltimosRegistros({historico, navigation}){
     return(
         <View>
             {historico.length > 0 && (

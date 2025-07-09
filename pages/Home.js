@@ -59,7 +59,7 @@ export default function Home() {
 
   return (
     <View style={styles.container}>
-      <UltimosRegistros historico={historico}/>
+      <UltimosRegistros historico={historico} navigation={navigation}/>
 
     <Text style={styles.title}>Atividades para {diaSemana}</Text>
 

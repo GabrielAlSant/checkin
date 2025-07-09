@@ -54,26 +54,31 @@ export default function EfetuarCheckin({ route }) {
 
   return (
     <View style={styles.container}>
-      <Button title="⬅ Voltar" onPress={() => navigation.goBack()} />
       <OneCheckin atividade={atividade} />
 
-      <RelogioAtual />
-
-      <Text style={{ marginBottom: 5 }}>Sua localização atual:</Text>
+      <Text style={styles.titlemap}>Localização que vai ser vinculada ao Check</Text>
       <Mapa coordenadas={(lat, long) => setCoordenadas({ latitude: lat, longitude: long })} />
-
       <View style={styles.botaoContainer}>
+         <RelogioAtual />
         <Button
+          color='green'
           title={status === 'checkin' ? 'Fazer Check-in' : 'Fazer Check-out'}
           onPress={realizarAcao}
         />
       </View>
+<Text />
+      <Button title="Voltar" onPress={() => navigation.goBack()} color="red"/>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 20 },
+  container: {
+  flex: 1,
+  padding: 20,
+  backgroundColor: "#121212"
+} ,
   loading: { padding: 20, textAlign: 'center' },
-  botaoContainer: { marginTop: 30 }
+  botaoContainer: { marginTop: 30 },
+  titlemap:{color: "white", fontSize:16, fontWeight:"bolder", marginTop:5}
 });

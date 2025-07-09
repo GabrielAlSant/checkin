@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet, View } from 'react-native';
 
 export default function RelogioAtual() {
   const [hora, setHora] = useState(new Date());
@@ -12,14 +12,25 @@ export default function RelogioAtual() {
     return () => clearInterval(interval);
   }, []);
 
-  return <Text style={styles.relogio}>{hora.toLocaleTimeString()}</Text>;
+  return (
+  <View>
+  <Text style={styles.relogio}>{hora.toLocaleTimeString()}</Text>
+  </View>
+  )
+  
 }
 
 const styles = StyleSheet.create({
+  title:{
+    fontSize:16,
+    textAlign: 'center',
+    color:"white"
+  },
   relogio: {
-    fontSize: 20,
+    fontSize: 26,
     fontWeight: 'bold',
     textAlign: 'center',
     marginVertical: 10,
+    color:"white"
   },
 });
