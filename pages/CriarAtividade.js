@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
-import { criarAtividade } from '../lib/database'; // ajuste o caminho
+import { criarAtividade } from '../lib/database'; 
 
 export default function CriarAtividade({ route }) {
   const { dia } = route.params;

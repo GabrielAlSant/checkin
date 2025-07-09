@@ -1,24 +1,46 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { db } from '../lib/database';
+import React, { useState, useCallback } from 'react';
+import { View, Text, StyleSheet, Button, Alert } from 'react-native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { getAtividadePorId, registrarCheckInOuOut, verificarStatusAtividade } from '../lib/database';
+import OneCheckin from '../components/renderCheckIn';
 
 export default function EfetuarCheckin({ route }) {
   const { id } = route.params;
   const [atividade, setAtividade] = useState(null);
+  const [status, setStatus] = useState(null);
+  const navigation = useNavigation();
 
-  useEffect(() => {
-    const fetchAtividade = async () => {
-      const result = await db.getFirstAsync(
-        `SELECT A.*, D.nome as dia_nome
-         FROM Atividades A
-         JOIN DiasDaSemana D ON A.dia_da_semana_id = D.id
-         WHERE A.id = ?`, [id]
-      );
-      setAtividade(result);
-    };
+  useFocusEffect(
+    useCallback(() => {
+      const carregarAtividade = async () => {
+        const dados = await getAtividadePorId(id);
+        setAtividade(dados);
 
-    fetchAtividade();
-  }, [id]);
+        const statusAtual = await verificarStatusAtividade(id);
+        setStatus(statusAtual);
+      };
+
+      carregarAtividade();
+    }, [id])
+  );
+
+  const realizarAcao = async () => {
+    try {
+      const result = await registrarCheckInOuOut(id);
+      Alert.alert('Sucesso', `Registrado ${result.toUpperCase()} com sucesso!`);
+
+      // Se for única e já deu checkout, volta
+      if (atividade.tipo === 'unica' && result === 'checkout') {
+        navigation.goBack();
+      } else {
+        const novoStatus = await verificarStatusAtividade(id);
+        setStatus(novoStatus);
+        navigation.goBack();
+      }
+    } catch (err) {
+      Alert.alert('Erro', err.message);
+    }
+  };
 
   if (!atividade) {
     return <Text style={styles.loading}>Carregando...</Text>;
@@ -26,19 +48,21 @@ export default function EfetuarCheckin({ route }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Detalhes da Atividade</Text>
-      <Text><Text style={styles.label}>Nome:</Text> {atividade.nome}</Text>
-      <Text><Text style={styles.label}>Apelido:</Text> {atividade.apelido}</Text>
-      <Text><Text style={styles.label}>Descrição:</Text> {atividade.descricao}</Text>
-      <Text><Text style={styles.label}>Tipo:</Text> {atividade.tipo}</Text>
-      <Text><Text style={styles.label}>Dia da Semana:</Text> {atividade.dia_nome}</Text>
+      <Button title="⬅ Voltar" onPress={() => navigation.goBack()} />
+      <OneCheckin atividade={atividade} />
+
+      <View style={styles.botaoContainer}>
+        <Button
+          title={status === 'checkin' ? 'Fazer Check-in' : 'Fazer Check-out'}
+          onPress={realizarAcao}
+        />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { padding: 20 },
-  title: { fontSize: 20, fontWeight: 'bold', marginBottom: 20 },
-  label: { fontWeight: 'bold' },
-  loading: { padding: 20, textAlign: 'center' }
+  loading: { padding: 20, textAlign: 'center' },
+  botaoContainer: { marginTop: 30 }
 });

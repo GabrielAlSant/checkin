@@ -41,7 +41,7 @@ export function CheckinsGerencial({ atividades, onDelete }) {
           style: "destructive",
           onPress: async () => {
             await excluirAtividade(id);
-            if (onDelete) onDelete(); // recarrega a lista
+            if (onDelete) onDelete();
           }
         }
       ]
@@ -68,6 +68,20 @@ export function CheckinsGerencial({ atividades, onDelete }) {
   );
 }
 
+
+export default function OneCheckin({atividade}){
+  return (
+         <View>
+           <Text style={styles.title}>Detalhes da Atividade</Text>
+          <Text><Text style={styles.label}>Nome:</Text> {atividade.nome}</Text>
+          <Text><Text style={styles.label}>Apelido:</Text> {atividade.apelido}</Text>
+          <Text><Text style={styles.label}>Descrição:</Text> {atividade.descricao}</Text>
+          <Text><Text style={styles.label}>Tipo:</Text> {atividade.tipo}</Text>
+          <Text><Text style={styles.label}>Dia da Semana:</Text> {atividade.dia_nome}</Text>
+         </View>
+  )
+}
+
 const styles = StyleSheet.create({
   itemContainer: {
     flexDirection: 'row',
@@ -81,6 +95,9 @@ const styles = StyleSheet.create({
   itemText: {
     flex: 1,
     fontSize: 16
-  }
+  },
+   title: { fontSize: 20, fontWeight: 'bold', marginBottom: 20 },
+  label: { fontWeight: 'bold' },
+  loading: { padding: 20, textAlign: 'center' }
 });
 
