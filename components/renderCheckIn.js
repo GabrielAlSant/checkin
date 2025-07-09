@@ -5,31 +5,52 @@ import { useNavigation } from '@react-navigation/native';
 import { excluirAtividade } from '../lib/database';
 
 
-export function Checkins({ atividades }) {
+export function Checkins({ atividades, statusAtividades, styles }) {
   const navigation = useNavigation();
 
   return (
     <View>
-      <FlatList
-        data={atividades}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.itemContainer}>
-            <Text style={styles.itemText}>{item.apelido || item.nome}</Text>
-            <Button
-              title="Ver detalhes"
-              onPress={() =>
-                navigation.navigate('DetalhesAtividade', { id: item.id })
-              }
+     {atividades.length === 0 ? (
+            <Text style={styles.semAtividades}>Nenhuma atividade para hoje</Text>
+          ) : (
+            <FlatList
+              data={atividades}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({ item }) => {
+                const status = statusAtividades[item.id] || "checkin";
+                return (
+                  <View style={styles.itemContainer}>
+                    <View style={{ flex: 1 }}>
+                      <Text style={styles.itemText}>
+                        {item.apelido || item.nome}
+                      </Text>
+                    </View>
+                 {status == 'checkin' ? <Button
+                      color="green"
+                      title={status}
+                      style={{ padding: 10 }}
+                      onPress={() =>
+                        navigation.navigate("EfetuarCheckin", { id: item.id })
+                      }
+                    />:
+                       <Button
+                      color="red"
+                      title={status}
+                      style={{ padding: 10 }}
+                      onPress={() =>
+                        navigation.navigate("EfetuarCheckin", { id: item.id })
+                      }
+                    />}
+                  </View>
+                );
+              }}
             />
-          </View>
-        )}
-      />
+          )}
     </View>
   );
 }
 
-export function CheckinsGerencial({ atividades, onDelete }) {
+export function CheckinsGerencial({ atividades, onDelete, styles }) {
   const confirmarExclusao = (id, nome) => {
     Alert.alert(
       "Confirmar exclusão",

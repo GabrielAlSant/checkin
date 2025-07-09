@@ -15,6 +15,7 @@ import {
   getHistoricoRecentes,
 } from "../lib/database";
 import UltimosRegistros from "../components/ultimosRegistros";
+import { Checkins } from "../components/renderCheckIn";
 
 export default function Home() {
   const dias = [
@@ -62,42 +63,7 @@ export default function Home() {
 
     <Text style={styles.title}>Atividades para {diaSemana}</Text>
 
-      {atividades.length === 0 ? (
-        <Text style={styles.semAtividades}>Nenhuma atividade para hoje</Text>
-      ) : (
-        <FlatList
-          data={atividades}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => {
-            const status = statusAtividades[item.id] || "checkin";
-            return (
-              <View style={styles.itemContainer}>
-                <View style={{ flex: 1 }}>
-                  <Text style={styles.itemText}>
-                    {item.apelido || item.nome}
-                  </Text>
-                </View>
-             {status == 'checkin' ? <Button
-                  color="green"
-                  title={status}
-                  style={{ padding: 10 }}
-                  onPress={() =>
-                    navigation.navigate("EfetuarCheckin", { id: item.id })
-                  }
-                />:
-                   <Button
-                  color="red"
-                  title={status}
-                  style={{ padding: 10 }}
-                  onPress={() =>
-                    navigation.navigate("EfetuarCheckin", { id: item.id })
-                  }
-                />}
-              </View>
-            );
-          }}
-        />
-      )}
+     <Checkins atividades={atividades} statusAtividades={statusAtividades} styles={styles}/>
     </View>
   );
 }

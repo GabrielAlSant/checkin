@@ -19,20 +19,43 @@ export default function DiaSemana({ route }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Check-in para {dia}</Text>
+      
       <Button
+        color='green'
         title="Cadastrar Atividade"
         onPress={() => navigation.navigate('CriarAtividade', { dia })}
       />
 
+      <Text style={styles.title}>Atividades para {dia}</Text>
       {atividades.length > 0
-        ? <CheckinsGerencial atividades={atividades} onDelete={carregarAtividades} />
+        ? <CheckinsGerencial atividades={atividades} onDelete={carregarAtividades} styles={styles}/>
         : <Text>Não há nada para este dia</Text>}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16 },
-  title: { fontSize: 20, fontWeight: 'bold', marginBottom: 10 }
+   container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: "#121212",
+    color: "green",
+  },
+  title: { fontSize: 22, fontWeight: "bold", marginBottom: 16, color: "white" },
+  semAtividades: { fontSize: 16, color: "gray" },
+  itemContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 10,   
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    backgroundColor: "#282828",
+  },
+  itemText: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "white",
+    marginLeft:10
+  },
 });
